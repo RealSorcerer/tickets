@@ -1,20 +1,22 @@
 package org.ruban;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 
 public class MainClass {
     public static void main(String[] args) {
         try {
-            List<Long> flightTimes = Service.getListFlightTime("tickets1.json");
+            List<Long> flightTimes = Service.getListFlightTime("tickets.json", "Владивосток", "Тель-Авив");
 
             System.out.println(Service.averageFlightTime(flightTimes));
             System.out.println(Service.getPercentileFlightTime(90, flightTimes));
+        } catch (JsonParseException e) {
+            System.out.println("Не верный формат json файла");
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
+            System.out.println("Проверьте наличие tickets.json в текущем каталоге.");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 }
